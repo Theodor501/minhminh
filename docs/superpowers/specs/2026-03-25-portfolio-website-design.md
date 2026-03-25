@@ -25,12 +25,13 @@ A single-page portfolio website for Quang Minh, a full-stack graphic designer ba
 | `accent-light` | `#6ab0ff` | Gradient endpoints, hover states |
 | `text-primary` | `#e0e0e0` | Headings, main text |
 | `text-secondary` | `#8899aa` | Body text, descriptions |
-| `text-muted` | `#556677` | Subtle labels, metadata |
+| `text-muted` | `#7a8a9a` | Subtle labels, metadata (WCAG AA compliant on dark bg) |
 
 ### Typography
 
-- **Headings:** Inter or Poppins — weight 800/900, tight letter-spacing
-- **Body:** Same family — weight 400, relaxed line-height
+- **Font:** Poppins (geometric, modern — suits a designer portfolio)
+- **Headings:** Weight 800/900, tight letter-spacing
+- **Body:** Weight 400, relaxed line-height (1.6-1.8)
 - **Labels:** Uppercase, letter-spacing 2-4px, small size
 - **Name accent:** "Quang" in `text-primary`, "Minh" in `accent`
 
@@ -141,21 +142,26 @@ A single-page portfolio website for Quang Minh, a full-stack graphic designer ba
 **Layout:**
 - Centered heading
 - Filter tabs: ALL | BRANDING | PRINT | SOCIAL
-- Masonry-style grid (3 columns desktop, 2 tablet, 1 mobile)
-- First item spans 2 rows for visual interest
+- CSS Grid layout (3 columns desktop, 2 tablet, 1 mobile) with `grid-row: span 2` on the first item for visual interest — no JS masonry library needed
 
 **Project Cards:**
-- Gradient placeholder backgrounds (will be replaced with real project images)
+- Gradient placeholder backgrounds (will be replaced with real project images — target 800x600px, WebP format, loaded via `next/image` with explicit width/height to prevent CLS)
 - Project title + client name overlay at bottom
 - Hover: image scales up 1.05x with 3D tilt effect (CSS perspective transform)
-- Click: opens a detail overlay/modal with more project info
+- Click: opens a detail overlay/modal — full-screen dark overlay with:
+  - Large project image centered
+  - Project title, client, category, and brief description
+  - "Close" button (X) top-right + click-outside-to-close + Escape key
+  - GSAP fade-in for overlay, scale-up for image
+  - On mobile: full-screen slide-up panel
 
-**Categories from CV:**
-- Brand Identity (Anh Duong Xanh)
-- E-commerce Posts
-- POSM Design (PNP Global)
-- Print Materials (Catalogues & Brochures)
-- Logo Design (Freelance)
+**Filter → Category Mapping:**
+| Filter Tab | Includes |
+|------------|----------|
+| ALL | All projects |
+| BRANDING | Brand Identity, Logo Design |
+| PRINT | POSM Design, Print Materials (Catalogues & Brochures) |
+| SOCIAL | E-commerce Posts |
 
 **Animations:**
 - Filter tabs slide in from top
@@ -213,7 +219,7 @@ A single-page portfolio website for Quang Minh, a full-stack graphic designer ba
 **Contact Form:**
 - Fields: Name, Email, Message
 - Submit button: "SEND MESSAGE"
-- Form is visual only (static site) — can integrate with Formspree/EmailJS later
+- Form is visual only (static site) — clicking "SEND MESSAGE" shows a toast: "Coming soon! Please email me directly." Links to mailto. Can integrate with Formspree/EmailJS (client-side) later since there are no API routes in static export.
 
 **Footer:**
 - Copyright line
@@ -228,17 +234,17 @@ A single-page portfolio website for Quang Minh, a full-stack graphic designer ba
 ## Three.js Blob — Technical Spec
 
 ### Geometry
-- `IcosahedronGeometry(1, 64)` for desktop, `(1, 32)` for mobile
-- Vertices displaced by 3D simplex noise, animated over time
-- Noise parameters: frequency 0.4, amplitude 0.3, speed 0.2
+- `IcosahedronGeometry(1, 32)` for desktop, `(1, 16)` for mobile
+- Vertex displacement via **custom GLSL vertex shader** (GPU-side, not CPU) using simplex noise
+- Noise parameters passed as uniforms: `uFrequency: 0.4`, `uAmplitude: 0.3`, `uTime` (animated)
+- This keeps displacement on the GPU for smooth 60fps performance
 
 ### Material
-- `MeshStandardMaterial` with:
-  - `metalness: 0.8`
-  - `roughness: 0.2`
-  - `color: #4a90d9`
-  - `emissive: #1a3a5c` (subtle glow)
-- Environment map for reflections (HDRI or simple gradient)
+- Custom `ShaderMaterial` with:
+  - Vertex shader: simplex noise displacement
+  - Fragment shader: gradient color based on displacement + Fresnel rim glow
+  - Uniforms: `uTime`, `uFrequency`, `uAmplitude`, `uColor (#4a90d9)`, `uEmissive (#1a3a5c)`, `uMousePos`
+  - Metallic-like appearance achieved via Fresnel effect in fragment shader
 
 ### Mouse Interaction
 - Track normalized mouse position
@@ -253,10 +259,15 @@ A single-page portfolio website for Quang Minh, a full-stack graphic designer ba
 - All transitions via GSAP ScrollTrigger
 
 ### Performance
-- `requestAnimationFrame` loop for noise animation
+- Noise runs entirely in vertex shader — no per-frame JS vertex manipulation
 - Reduce detail on mobile (fewer vertices, no mouse tracking)
 - Use `React.memo` and `useMemo` for Three.js objects
 - Lazy-load Three.js canvas (not blocking initial paint)
+
+### Loading State
+- Before Three.js initializes: hero shows the dark gradient background with a subtle CSS radial glow (matching blob colors) as placeholder
+- Text content renders immediately (not blocked by Three.js)
+- Blob fades in once the canvas is ready
 
 ## Project Structure
 
@@ -327,6 +338,16 @@ src/
 - **Mobile:** Simplified blob (fewer vertices), no mouse tracking, reduced animation complexity
 - **Scroll performance:** GSAP ScrollTrigger with `will-change` hints, batch animations
 - **Bundle splitting:** Three.js in its own chunk via dynamic import
+
+## Accessibility
+
+- **`prefers-reduced-motion`:** When enabled, disable all GSAP scroll animations (elements render in final state), stop blob morphing (show static shape), remove parallax effects
+- **Color contrast:** All text colors meet WCAG AA (4.5:1 minimum) against their backgrounds
+- **Keyboard navigation:** Filter tabs are focusable with arrow keys, hamburger menu accessible via Enter/Escape, portfolio modal closes on Escape, focus trapped inside open modal
+- **Three.js canvas:** `aria-hidden="true"` — purely decorative, no meaningful content
+- **Scroll indicator:** `aria-hidden="true"` — scroll works natively
+- **Images:** All portfolio images get descriptive `alt` text
+- **Semantic HTML:** Use `<nav>`, `<main>`, `<section>`, `<footer>` landmarks
 
 ## SEO & Metadata
 
