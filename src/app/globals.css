@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --color-bg-primary: #0a0a1a;
+  --color-bg-secondary: #0d1b2a;
+  --color-bg-tertiary: #111827;
+  --color-accent: #4a90d9;
+  --color-accent-light: #6ab0ff;
+  --color-text-primary: #e0e0e0;
+  --color-text-secondary: #8899aa;
+  --color-text-muted: #7a8a9a;
+}
+
+html {
+  scroll-behavior: auto; /* GSAP handles smooth scrolling */
+}
+
+body {
+  background-color: var(--color-bg-primary);
+  color: var(--color-text-primary);
+}
+
+/* Blob loading placeholder */
+.blob-placeholder {
+  background: radial-gradient(
+    ellipse at 60% 50%,
+    rgba(74, 144, 217, 0.15) 0%,
+    transparent 70%
+  );
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
