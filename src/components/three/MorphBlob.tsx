@@ -23,8 +23,8 @@ export function MorphBlob({ mousePosition, isMobile }: MorphBlobProps) {
       uFrequency: { value: 0.4 },
       uAmplitude: { value: 0.3 },
       uMousePos: { value: new THREE.Vector2(0, 0) },
-      uColor: { value: new THREE.Color("#4a90d9") },
-      uEmissive: { value: new THREE.Color("#1a3a5c") },
+      uColor: { value: new THREE.Color("#3b5ee8") },
+      uEmissive: { value: new THREE.Color("#6b8cff") },
     }),
     []
   );

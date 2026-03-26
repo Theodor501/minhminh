@@ -17,7 +17,7 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
     const rect = card.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5;
     const y = (e.clientY - rect.top) / rect.height - 0.5;
-    card.style.transform = `perspective(600px) rotateY(${x * 8}deg) rotateX(${-y * 8}deg) scale(1.03)`;
+    card.style.transform = `perspective(600px) rotateY(${x * 6}deg) rotateX(${-y * 6}deg) scale(1.02)`;
   };
 
   const handleMouseLeave = () => {
@@ -31,18 +31,18 @@ export function ProjectCard({ project, onClick }: ProjectCardProps) {
       onClick={onClick}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="rounded-lg overflow-hidden cursor-pointer transition-transform duration-300"
+      className="rounded-2xl overflow-hidden cursor-pointer transition-all duration-300 shadow-[0_4px_20px_rgba(59,94,232,0.1)] hover:shadow-[0_8px_40px_rgba(59,94,232,0.18)]"
       style={{ background: project.gradient }}
       role="button"
       tabIndex={0}
       onKeyDown={(e) => e.key === "Enter" && onClick()}
       aria-label={`View project: ${project.title}`}
     >
-      <div className="h-full min-h-[180px] flex items-end p-4 relative">
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+      <div className="h-full min-h-[200px] flex items-end p-5 relative">
+        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         <div className="relative z-10">
-          <p className="text-sm font-semibold text-white">{project.title}</p>
-          <p className="text-xs text-white/60">{project.client}</p>
+          <p className="text-base font-bold text-white">{project.title}</p>
+          <p className="text-sm text-white/70">{project.client}</p>
         </div>
       </div>
     </div>

@@ -32,15 +32,15 @@ export function SkillCard({ skill }: { skill: Skill }) {
   }, [skill.level]);
 
   return (
-    <div className="bg-accent/[0.06] border border-accent/15 rounded-xl p-5 text-center backdrop-blur-sm">
+    <div className="card-soft p-5 text-center hover:shadow-[0_8px_32px_rgba(59,94,232,0.12)] transition-shadow">
       <div
-        className="w-10 h-10 rounded-lg mx-auto mb-3 flex items-center justify-center text-sm font-extrabold"
+        className="w-12 h-12 rounded-xl mx-auto mb-3 flex items-center justify-center text-base font-extrabold"
         style={{ backgroundColor: skill.bgColor, color: skill.textColor }}
       >
         {skill.abbreviation}
       </div>
-      <p className="text-sm text-text-primary mb-3">{skill.name}</p>
-      <div className="h-1 bg-white/10 rounded-full overflow-hidden">
+      <p className="text-sm font-semibold text-text-primary mb-3">{skill.name}</p>
+      <div className="h-1.5 bg-bg-tertiary rounded-full overflow-hidden">
         <div
           ref={barRef}
           className="h-full rounded-full"
@@ -50,7 +50,7 @@ export function SkillCard({ skill }: { skill: Skill }) {
           }}
         />
       </div>
-      <p className="text-xs text-accent mt-2">{skill.level}%</p>
+      <p className="text-xs text-accent font-semibold mt-2">{skill.level}%</p>
     </div>
   );
 }

@@ -37,47 +37,54 @@ export function Contact() {
   ];
 
   return (
-    <section id="contact" className="py-24 bg-bg-secondary relative" ref={sectionRef}>
-      <div className="absolute top-0 right-0 w-96 h-96 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+    <section id="contact" className="py-24 bg-white relative overflow-hidden" ref={sectionRef}>
+      <div className="deco-blob w-[500px] h-[500px] bg-gradient-to-br from-accent/8 to-accent-light/5 -bottom-60 -right-60" />
+
       <div className="max-w-5xl mx-auto px-6 relative z-10">
         <div className="text-center mb-12">
-          <p className="text-xs tracking-[4px] text-accent uppercase mb-2">Get In Touch</p>
-          <h2 className="text-3xl md:text-4xl font-extrabold">Let&apos;s Work Together</h2>
+          <span className="inline-block text-xs tracking-[4px] text-accent uppercase bg-accent/5 px-4 py-2 rounded-full font-semibold">Get In Touch</span>
+          <h2 className="text-3xl md:text-5xl font-black mt-4 text-text-primary">Let&apos;s Work Together</h2>
         </div>
-        <div className="flex flex-col md:flex-row gap-12">
-          <div className="contact-info flex-1 space-y-5">
-            {contactItems.map((item) => (
-              <div key={item.label} className="flex items-center gap-4">
-                <div className="w-10 h-10 rounded-full bg-accent/15 flex items-center justify-center text-lg flex-shrink-0">
-                  {item.icon}
+
+        <div className="card-soft p-8 md:p-12">
+          <div className="flex flex-col md:flex-row gap-12">
+            <div className="contact-info flex-1 space-y-5">
+              {contactItems.map((item) => (
+                <div key={item.label} className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-accent/5 flex items-center justify-center text-lg flex-shrink-0">
+                    {item.icon}
+                  </div>
+                  <div>
+                    <p className="text-[10px] tracking-widest text-text-muted font-medium">{item.label}</p>
+                    {item.href ? (
+                      <a href={item.href} className="text-sm text-text-primary hover:text-accent transition-colors font-medium">{item.value}</a>
+                    ) : (
+                      <p className="text-sm text-text-primary font-medium">{item.value}</p>
+                    )}
+                  </div>
                 </div>
-                <div>
-                  <p className="text-[10px] tracking-widest text-text-muted">{item.label}</p>
-                  {item.href ? (
-                    <a href={item.href} className="text-sm text-text-primary hover:text-accent transition-colors">{item.value}</a>
-                  ) : (
-                    <p className="text-sm text-text-primary">{item.value}</p>
-                  )}
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            <form onSubmit={handleSubmit} className="contact-form flex-1 space-y-4">
+              <input type="text" placeholder="Your Name" className="w-full bg-bg-primary border border-gray-200 rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition-all" />
+              <input type="email" placeholder="Your Email" className="w-full bg-bg-primary border border-gray-200 rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition-all" />
+              <textarea placeholder="Message..." rows={4} className="w-full bg-bg-primary border border-gray-200 rounded-xl px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent focus:ring-2 focus:ring-accent/10 transition-all resize-none" />
+              <button type="submit" className="w-full py-3.5 bg-accent text-white text-sm font-semibold rounded-full hover:bg-accent-light transition-all shadow-[0_4px_16px_rgba(59,94,232,0.3)] flex items-center justify-center gap-2">
+                Send Message
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>
+              </button>
+            </form>
           </div>
-          <form onSubmit={handleSubmit} className="contact-form flex-1 space-y-3">
-            <input type="text" placeholder="Your Name" className="w-full bg-accent/[0.06] border border-accent/20 rounded-lg px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent transition-colors" />
-            <input type="email" placeholder="Your Email" className="w-full bg-accent/[0.06] border border-accent/20 rounded-lg px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent transition-colors" />
-            <textarea placeholder="Message..." rows={4} className="w-full bg-accent/[0.06] border border-accent/20 rounded-lg px-4 py-3 text-sm text-text-primary placeholder:text-text-muted focus:outline-none focus:border-accent transition-colors resize-none" />
-            <button type="submit" className="w-full py-3 bg-accent text-white text-sm font-semibold tracking-widest rounded-lg hover:bg-accent-light transition-colors">
-              SEND MESSAGE
-            </button>
-          </form>
         </div>
-        <div className="text-center mt-16 pt-8 border-t border-accent/10">
-          <div className="flex justify-center gap-4 mb-4">
+
+        <div className="text-center mt-16 pt-8 border-t border-gray-100">
+          <div className="flex justify-center gap-6 mb-4">
             {[
               { label: "Behance", href: "https://behance.net/minhle123" },
               { label: "Email", href: "mailto:quangminh14320@gmail.com" },
             ].map((link) => (
-              <a key={link.label} href={link.href} className="text-xs text-text-muted hover:text-accent transition-colors tracking-widest uppercase">
+              <a key={link.label} href={link.href} className="text-sm text-text-muted hover:text-accent transition-colors font-medium">
                 {link.label}
               </a>
             ))}
@@ -85,10 +92,11 @@ export function Contact() {
           <p className="text-xs text-text-muted">&copy; 2025 Quang Minh. Designed with creativity.</p>
         </div>
       </div>
+
       {showToast && (
-        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-bg-tertiary border border-accent/30 text-text-primary px-6 py-3 rounded-lg shadow-lg z-[200] text-sm">
+        <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white border border-accent/20 text-text-primary px-6 py-3 rounded-xl shadow-[0_8px_32px_rgba(59,94,232,0.15)] z-[200] text-sm">
           Coming soon! Please{" "}
-          <a href="mailto:quangminh14320@gmail.com" className="text-accent underline">email me directly</a>.
+          <a href="mailto:quangminh14320@gmail.com" className="text-accent underline font-medium">email me directly</a>.
         </div>
       )}
     </section>

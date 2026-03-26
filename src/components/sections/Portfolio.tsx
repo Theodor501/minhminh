@@ -20,21 +20,12 @@ export function Portfolio() {
     const grid = gridRef.current;
     if (grid) {
       gsap.to(grid.children, {
-        opacity: 0,
-        scale: 0.95,
-        duration: 0.2,
-        stagger: 0.03,
+        opacity: 0, scale: 0.95, duration: 0.2, stagger: 0.03,
         onComplete: () => {
           setActiveFilter(tab);
           requestAnimationFrame(() => {
             if (grid) {
-              gsap.from(grid.children, {
-                opacity: 0,
-                scale: 0.95,
-                y: 20,
-                duration: 0.4,
-                stagger: 0.06,
-              });
+              gsap.from(grid.children, { opacity: 0, scale: 0.95, y: 20, duration: 0.4, stagger: 0.06 });
             }
           });
         },
@@ -61,28 +52,32 @@ export function Portfolio() {
   const sectionRef = useScrollAnimation(animationCallback);
 
   return (
-    <section id="portfolio" className="py-24 bg-bg-secondary" ref={sectionRef}>
-      <div className="max-w-6xl mx-auto px-6">
+    <section id="portfolio" className="py-24 bg-white relative overflow-hidden" ref={sectionRef}>
+      <div className="deco-blob w-[500px] h-[500px] bg-gradient-to-br from-accent/8 to-accent-light/5 bottom-0 -left-60" />
+
+      <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="text-center mb-8">
-          <p className="text-xs tracking-[4px] text-accent uppercase mb-2">Selected Work</p>
-          <h2 className="text-3xl md:text-4xl font-extrabold">Portfolio</h2>
+          <span className="inline-block text-xs tracking-[4px] text-accent uppercase bg-accent/5 px-4 py-2 rounded-full font-semibold">Selected Work</span>
+          <h2 className="text-3xl md:text-5xl font-black mt-4 text-text-primary">Portfolio</h2>
         </div>
+
         <div className="flex justify-center gap-3 mb-10 flex-wrap">
           {filterTabs.map((tab) => (
             <button
               key={tab}
               onClick={() => handleFilterChange(tab)}
-              className={`filter-tab px-5 py-2 rounded-full text-xs tracking-widest uppercase transition-all ${
+              className={`filter-tab px-5 py-2.5 rounded-full text-sm font-medium transition-all capitalize ${
                 activeFilter === tab
-                  ? "bg-accent text-white"
-                  : "border border-accent/30 text-text-secondary hover:border-accent hover:text-accent"
+                  ? "bg-accent text-white shadow-[0_4px_16px_rgba(59,94,232,0.3)]"
+                  : "bg-bg-tertiary text-text-secondary hover:bg-accent/10 hover:text-accent"
               }`}
             >
               {tab}
             </button>
           ))}
         </div>
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
           {filteredProjects.map((project, i) => (
             <div key={project.id} className={`project-card ${i === 0 ? "md:row-span-2" : ""}`}>
               <ProjectCard project={project} onClick={() => setSelectedProject(project)} />
@@ -90,6 +85,7 @@ export function Portfolio() {
           ))}
         </div>
       </div>
+
       {selectedProject && (
         <ProjectModal project={selectedProject} onClose={() => setSelectedProject(null)} />
       )}

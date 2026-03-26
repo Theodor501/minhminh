@@ -1,18 +1,20 @@
 @import "tailwindcss";
 
 @theme {
-  --color-bg-primary: #0a0a1a;
-  --color-bg-secondary: #0d1b2a;
-  --color-bg-tertiary: #111827;
-  --color-accent: #4a90d9;
-  --color-accent-light: #6ab0ff;
-  --color-text-primary: #e0e0e0;
-  --color-text-secondary: #8899aa;
-  --color-text-muted: #7a8a9a;
+  --color-bg-primary: #f8f9fc;
+  --color-bg-secondary: #ffffff;
+  --color-bg-tertiary: #f0f2f8;
+  --color-accent: #3b5ee8;
+  --color-accent-light: #6b8cff;
+  --color-accent-deep: #1a1a6e;
+  --color-text-primary: #1a1a2e;
+  --color-text-secondary: #5a6078;
+  --color-text-muted: #8a90a8;
+  --color-card-shadow: rgba(59, 94, 232, 0.08);
 }
 
 html {
-  scroll-behavior: auto; /* GSAP handles smooth scrolling */
+  scroll-behavior: auto;
 }
 
 body {
@@ -20,16 +22,31 @@ body {
   color: var(--color-text-primary);
 }
 
-/* Blob loading placeholder */
 .blob-placeholder {
   background: radial-gradient(
     ellipse at 60% 50%,
-    rgba(74, 144, 217, 0.15) 0%,
+    rgba(59, 94, 232, 0.08) 0%,
     transparent 70%
   );
 }
 
-/* Reduced motion */
+/* Soft card style used across sections */
+.card-soft {
+  background: var(--color-bg-secondary);
+  border: 1px solid rgba(59, 94, 232, 0.08);
+  border-radius: 1rem;
+  box-shadow: 0 4px 24px var(--color-card-shadow);
+}
+
+/* Gradient decorative blob */
+.deco-blob {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  pointer-events: none;
+  opacity: 0.5;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
