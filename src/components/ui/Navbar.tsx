@@ -37,12 +37,11 @@ export function Navbar() {
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
-          ? "bg-bg-primary/80 backdrop-blur-md shadow-lg"
+          ? "bg-white/80 backdrop-blur-md shadow-[0_2px_20px_rgba(59,94,232,0.08)]"
           : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo */}
         <a
           href="#"
           className="text-xl font-black tracking-tight"
@@ -55,47 +54,38 @@ export function Navbar() {
           <span className="text-text-primary">M</span>
         </a>
 
-        {/* Desktop links */}
         <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <button
               key={link.href}
               onClick={() => scrollTo(link.href)}
-              className="text-xs tracking-widest uppercase text-text-secondary hover:text-accent transition-colors"
+              className="text-sm text-text-secondary hover:text-accent transition-colors font-medium"
             >
               {link.label}
             </button>
           ))}
+          <button
+            onClick={() => scrollTo("#contact")}
+            className="px-5 py-2 bg-accent text-white text-sm font-semibold rounded-full hover:bg-accent-light transition-colors shadow-[0_4px_16px_rgba(59,94,232,0.3)]"
+          >
+            Contact Me
+          </button>
         </div>
 
-        {/* Mobile hamburger */}
         <button
           className="md:hidden flex flex-col gap-1.5 p-2"
           onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
           aria-expanded={isMobileMenuOpen}
         >
-          <span
-            className={`block w-6 h-0.5 bg-text-primary transition-transform ${
-              isMobileMenuOpen ? "rotate-45 translate-y-2" : ""
-            }`}
-          />
-          <span
-            className={`block w-6 h-0.5 bg-text-primary transition-opacity ${
-              isMobileMenuOpen ? "opacity-0" : ""
-            }`}
-          />
-          <span
-            className={`block w-6 h-0.5 bg-text-primary transition-transform ${
-              isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""
-            }`}
-          />
+          <span className={`block w-6 h-0.5 bg-text-primary transition-transform ${isMobileMenuOpen ? "rotate-45 translate-y-2" : ""}`} />
+          <span className={`block w-6 h-0.5 bg-text-primary transition-opacity ${isMobileMenuOpen ? "opacity-0" : ""}`} />
+          <span className={`block w-6 h-0.5 bg-text-primary transition-transform ${isMobileMenuOpen ? "-rotate-45 -translate-y-2" : ""}`} />
         </button>
       </div>
 
-      {/* Mobile overlay */}
       {isMobileMenuOpen && (
-        <div className="md:hidden fixed inset-0 top-16 bg-bg-primary/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8">
+        <div className="md:hidden fixed inset-0 top-16 bg-white/95 backdrop-blur-lg flex flex-col items-center justify-center gap-8">
           {navLinks.map((link) => (
             <button
               key={link.href}
